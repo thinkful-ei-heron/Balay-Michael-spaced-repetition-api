@@ -95,8 +95,8 @@ const LanguageService = {
       .update({ head: newHeadId });
   },
 
-  updateLanguageScore(db, language_id, newScore) {
-    db('language')
+  async updateLanguageScore(db, language_id, newScore) {
+    await db('language')
       .where({ id: language_id })
       .update({ total_score: newScore });
   }
