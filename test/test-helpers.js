@@ -184,6 +184,9 @@ async function seedUsersLanguagesWords(db, users, languages, words) {
       ),
     ])
   })
+
+  const head = await db('language').select('*').where('id', languages[0].id);
+  console.log(head)
 }
 
 module.exports = {

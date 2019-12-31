@@ -1,6 +1,7 @@
 const express = require('express');
 const LanguageService = require('./language-service');
 const { requireAuth } = require('../middleware/jwt-auth');
+const bodyParser = express.json();
 
 const languageRouter = express.Router();
 
@@ -53,13 +54,53 @@ languageRouter.get('/head', async (req, res, next) => {
     wordIncorrectCount: nextWord.incorrect_count,
     totalScore: total_score
   };
-  console.log(response_object);
+  // console.log(response_object);
   res.json(response_object);
 });
 
-languageRouter.post('/guess', async (req, res, next) => {
-  // implement me
-  res.send('implement me!');
+languageRouter.post('/guess', bodyParser, async (req, res, next) => {
+  // console.log('begin');
+  const { guess } = req.body;
+  const db = req.app.get('db');
+  const languageId = req.language.id;
+  if (!guess) {
+    res.status(400).json({
+      error: `Missing 'guess' in request body`
+    });
+  }
+  let { total_score } = req.language;
+  const langList = await LanguageService.getLanguageList(db, languageId);
+  // console.log('   ');
+  // langList.printList();
+  let cur = langList.pop();
+  let nextWord = langList.pop();
+  langList.insertFirst(nextWord);
+  const isCorrect = guess === cur.translation;
+
+  if (isCorrect) {
+    cur.memory_value *= 2;
+    cur.correct_count++;
+    await LanguageService.updateLanguageScore(db, languageId, ++total_score);
+  } else {
+    cur.memory_value = 1;
+    cur.incorrect_count++;
+  }
+  langList.insertAt(cur, cur.memory_value);
+  // console.log('persist:');
+  // langList.printList();
+
+  await LanguageService.persistLanguageList(db, languageId, langList);
+  const response_object = {
+    totalScore: total_score,
+    nextWord: nextWord.original,
+    isCorrect,
+    wordCorrectCount: cur.correct_count,
+    wordIncorrectCount: cur.incorrect_count,
+    answer: cur.translation
+  };
+  res.json(response_object);
+  // console.log(response_object);
+  // console.log('end');
 });
 
 module.exports = languageRouter;
