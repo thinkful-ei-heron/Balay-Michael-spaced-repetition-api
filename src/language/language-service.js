@@ -52,13 +52,13 @@ const LanguageService = {
   },
 
   async persistLanguageList(db, language_id, list) {
-    await db.transaction(trx => {
+    await db.transaction(async trx => {
       //get next word and update head
       // console.log('persist:');
       // list.printList();
       let cur = list.pop();
       // console.log(cur.id);
-      this.updateLanguageHead(db, language_id, cur.id);
+      await this.updateLanguageHead(db, language_id, cur.id);
       //build array of queries: update next, memory value, counts in place
       const queries = [];
       while (cur) {
@@ -81,7 +81,7 @@ const LanguageService = {
         cur = list.pop();
       }
 
-      Promise.all(queries)
+      await Promise.all(queries)
         .then(trx.commit)
         .catch(trx.rollback);
     });
@@ -89,7 +89,7 @@ const LanguageService = {
   },
 
   async updateLanguageHead(db, language_id, newHeadId) {
-    console.log('update head: ', newHeadId)
+    console.log('update head: ', newHeadId);
     await db('language')
       .where({ id: language_id })
       .update({ head: newHeadId });
