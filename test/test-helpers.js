@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken');
 function makeKnexInstance() {
   return knex({
     client: 'pg',
-    connection: process.env.TEST_DB_URL
+    connection: process.env.TEST_DATABASE_URL
   });
 }
 
@@ -178,11 +178,6 @@ async function seedUsersLanguagesWords(db, users, languages, words) {
       trx.raw(`SELECT setval('word_id_seq', ?)`, [words[words.length - 1].id])
     ]);
   });
-
-  const head = await db('language')
-    .select('*')
-    .where('id', languages[0].id);
-  // console.log(head)
 }
 
 module.exports = {

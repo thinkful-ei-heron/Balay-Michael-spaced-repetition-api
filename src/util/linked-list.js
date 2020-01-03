@@ -21,7 +21,6 @@ class LinkedList {
     }
   }
   insertAt(data, index) {
-    // console.log(data, index);
     if (index < 0) {
       throw new Error('Index out of bounds');
     }

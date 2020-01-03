@@ -54,12 +54,10 @@ languageRouter.get('/head', async (req, res, next) => {
     wordIncorrectCount: nextWord.incorrect_count,
     totalScore: total_score
   };
-  // console.log(response_object);
   res.json(response_object);
 });
 
 languageRouter.post('/guess', bodyParser, async (req, res, next) => {
-  // console.log('begin');
   const { guess } = req.body;
   const db = req.app.get('db');
   const languageId = req.language.id;
@@ -70,8 +68,6 @@ languageRouter.post('/guess', bodyParser, async (req, res, next) => {
   }
   let { total_score } = req.language;
   const langList = await LanguageService.getLanguageList(db, languageId);
-  // console.log('   ');
-  // langList.printList();
   let cur = langList.pop();
   let nextWord = langList.pop();
   langList.insertFirst(nextWord);
@@ -86,8 +82,6 @@ languageRouter.post('/guess', bodyParser, async (req, res, next) => {
     cur.incorrect_count++;
   }
   langList.insertAt(cur, cur.memory_value);
-  // console.log('persist:');
-  // langList.printList();
 
   await LanguageService.persistLanguageList(db, languageId, langList);
   const response_object = {
@@ -99,8 +93,6 @@ languageRouter.post('/guess', bodyParser, async (req, res, next) => {
     answer: cur.translation
   };
   res.json(response_object);
-  // console.log(response_object);
-  // console.log('end');
 });
 
 module.exports = languageRouter;

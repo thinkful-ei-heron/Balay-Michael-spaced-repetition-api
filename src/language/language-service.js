@@ -40,8 +40,6 @@ const LanguageService = {
       .where({ id: language_id })
       .first();
 
-    console.log(head);
-
     let currentWord = words.find(word => word.id === head.head);
 
     while (currentWord) {
@@ -54,19 +52,16 @@ const LanguageService = {
   async persistLanguageList(db, language_id, list) {
     await db.transaction(async trx => {
       //get next word and update head
-      // console.log('persist:');
-      // list.printList();
       let cur = list.pop();
       // console.log(cur.id);
       await this.updateLanguageHead(db, language_id, cur.id);
       //build array of queries: update next, memory value, counts in place
       const queries = [];
       while (cur) {
-        // console.log('cur :', cur);
         nextItem = list.pop();
         if (nextItem) list.insertFirst(nextItem);
         cur.next = nextItem ? nextItem.id : null;
-        // console.log(cur);
+
         queries.push(
           db('word')
             .where('id', cur.id)
@@ -85,11 +80,9 @@ const LanguageService = {
         .then(trx.commit)
         .catch(trx.rollback);
     });
-    // console.log('persist');
   },
 
   async updateLanguageHead(db, language_id, newHeadId) {
-    console.log('update head: ', newHeadId);
     await db('language')
       .where({ id: language_id })
       .update({ head: newHeadId });
