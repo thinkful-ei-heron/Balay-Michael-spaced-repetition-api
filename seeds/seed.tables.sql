@@ -28,7 +28,9 @@ VALUES
   (5, 1, 'çevirmek', 'translate', 6),
   (6, 1, 'inanılmaz', 'amazing', 7),
   (7, 1, 'köpek', 'dog', 8),
-  (8, 1, 'kedi', 'cat', null);
+  (8, 1, 'kedi', 'cat', 9)
+  (9, 1, 'güle güle', 'goodbye', 10),
+  (10, 1, 'internet sitesi', 'website', null);;
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 

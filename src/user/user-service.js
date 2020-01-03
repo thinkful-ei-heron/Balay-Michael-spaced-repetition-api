@@ -63,7 +63,9 @@ const UserService = {
         ['çevirmek', 'translate', 6],
         ['inanılmaz', 'amazing', 7],
         ['köpek', 'dog', 8],
-        ['kedi', 'cat', null]
+        ['kedi', 'cat', 9],
+        ['güle güle', 'goodbye', 10],
+        ['internet sitesi', 'website', null]
       ];
 
       const [languageHeadId] = await trx.into('word').insert(
