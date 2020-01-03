@@ -24,7 +24,7 @@ const corsWhitelist = [
 
 const corsOptions = {
   origin: (origin, cb) => {
-    if (!origin || corsWhitelist.includes(origin)) {
+    if (corsWhitelist.includes(origin)) {
       cb(null, true);
     } else {
       cb(new Error('Disallowed by CORS'));
