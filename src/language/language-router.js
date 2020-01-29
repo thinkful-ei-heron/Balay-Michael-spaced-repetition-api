@@ -69,8 +69,7 @@ languageRouter.post('/guess', bodyParser, async (req, res, next) => {
   let { total_score } = req.language;
   const langList = await LanguageService.getLanguageList(db, languageId);
   let cur = langList.pop();
-  let nextWord = langList.pop();
-  langList.insertFirst(nextWord);
+  let nextWord = langList.peek();
   const isCorrect = guess === cur.translation;
 
   if (isCorrect) {

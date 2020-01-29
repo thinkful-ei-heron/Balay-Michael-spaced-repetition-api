@@ -50,20 +50,15 @@ class LinkedList {
     if (this.head === null) this.tail = null;
     return first;
   }
+  peek() {
+    return this.head ? this.head.value : null;
+  }
   find(predicate) {
     let cur = this.head;
     while (cur !== null) {
       if (predicate(cur.value)) return cur.value;
     }
     return null;
-  }
-  printList() {
-    //prints each node in detail for debug
-    let cur = this.head;
-    while (cur !== null) {
-      console.log(cur);
-      cur = cur.next;
-    }
   }
 }
 
