@@ -62,7 +62,7 @@ languageRouter.post('/guess', bodyParser, async (req, res, next) => {
   const db = req.app.get('db');
   const languageId = req.language.id;
   if (!guess) {
-    res.status(400).json({
+    return res.status(400).json({
       error: `Missing 'guess' in request body`
     });
   }

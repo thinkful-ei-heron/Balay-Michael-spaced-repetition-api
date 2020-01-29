@@ -16,20 +16,12 @@ app.use(
   })
 );
 
-const corsWhitelist = [
-  'https://spaced-repetition-eight-blue.now.sh',
-  'https://michael-balay-spaced-repetition.now.sh',
-  'https://spaced-repetition.balayaydemir.now.sh'
-];
-
 const corsOptions = {
-  origin: (origin, cb) => {
-    if (corsWhitelist.includes(origin)) {
-      cb(null, true);
-    } else {
-      cb(new Error('Disallowed by CORS'));
-    }
-  }
+  origin: [
+    'https://spaced-repetition-eight-blue.now.sh',
+    'https://michael-balay-spaced-repetition.now.sh',
+    'https://spaced-repetition.balayaydemir.now.sh'
+  ]
 };
 
 app.use(cors(corsOptions));
