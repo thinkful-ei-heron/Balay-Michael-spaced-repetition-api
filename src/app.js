@@ -22,7 +22,7 @@ const corsOptions = {
     'https://michael-balay-spaced-repetition.now.sh',
     'https://spaced-repetition.balayaydemir.now.sh',
     'http://localhost:3000',
-    'https://turkishly.now.sh/'
+    'https://turkishly.now.sh'
   ]
 };
 
