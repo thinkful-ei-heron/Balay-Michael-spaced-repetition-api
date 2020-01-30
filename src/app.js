@@ -20,7 +20,9 @@ const corsOptions = {
   origin: [
     'https://spaced-repetition-eight-blue.now.sh',
     'https://michael-balay-spaced-repetition.now.sh',
-    'https://spaced-repetition.balayaydemir.now.sh'
+    'https://spaced-repetition.balayaydemir.now.sh',
+    'http://localhost:3000',
+    'https://turkishly.now.sh/'
   ]
 };
 
